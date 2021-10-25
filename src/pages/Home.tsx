@@ -1,29 +1,28 @@
-import { useContext } from 'react';
-import { firebase, auth } from '../services/firebase'
-import { useHistory } from 'react-router';
-import { TestContext } from '../App';
 
+
+import { useHistory } from 'react-router';
 import illustrationImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
 import googleIconImg from '../assets/images/google-icon.svg'
 import '../styles/auth.scss';
 import { Button } from '../components/Button';
 
-
+import { useAuth } from '../hooks/useAuth';
 
 
 export function Home(){
 
     const history = useHistory();
-    const value = useContext(TestContext);
+    const { user, signInWithGoole } = useAuth();
+    
 
-    function handleCrateRoom(){
+    async function handleCrateRoom(){
 
-        const provider = new firebase.auth.GoogleAuthProvider();
-        auth.signInWithPopup(provider).then(result => {
-            console.log(result);
-            history.push('/rooms/new');
-        })
+        if(!user){
+           await signInWithGoole();
+        }
+
+        history.push('/rooms/new');
 
     }
 
@@ -36,7 +35,6 @@ export function Home(){
                 <p>Tire as dúvidas de sua audiência em tempo-real</p>
             </aside>
             <main>
-                <h1>{value}</h1>
                 <div className="main-content">
                 
                     <img src={logoImg} alt="letmeask" />
