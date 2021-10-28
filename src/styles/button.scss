@@ -12,8 +12,15 @@
     border: 0;
 
     transition: filter 0.5s;
+
     img{
         margin-right: 8px;
+    }
+
+    &.outlined {
+        background: #fff;
+        border: 1px solid #935afd;
+        color: #935afd;
     }
 
     &:not(:disabled):hover{
